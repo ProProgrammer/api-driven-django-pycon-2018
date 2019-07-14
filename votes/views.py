@@ -1,5 +1,6 @@
 # Create your views here.
 # Django generic views - class based views - common operations combined in a class based view
+from django.shortcuts import redirect
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.renderers import TemplateHTMLRenderer, BrowsableAPIRenderer, JSONRenderer
 
@@ -88,3 +89,20 @@ class VotesList(ListCreateAPIView):
     )
 
     template_name = 'vote_list.html'
+
+    def create(self, request, *args, **kwargs):
+        """
+        Overriding the create function of ListCreateAPIView to:
+        # redirect the user to /votes/ if:
+            # the renderer used is of HTML format and the response returned is 201 - i.e. CREATED
+                # Its like browser saying: "Hey give me what lives at /votes/ and also, I'd really like HTML back so
+                if you can give me HTML back, that'd be great.
+                    # DRF captures the info regarding format in which request was made in `accepted_renderer.format`
+                    and so if we successfully created the vote, ie. the response status code would be 201
+            # Since this indicates that on HTML format renderer, someone created something - i.e. using the form we
+            provided in vote_create.html
+        """
+        response = super(VotesList, self).create(request, *args, **kwargs)
+        if request.accepted_renderer.format == 'html' and response.status_code == 201:
+            return redirect('/votes/')
+        return response

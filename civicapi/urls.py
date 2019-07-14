@@ -21,4 +21,5 @@ from votes import views as vote_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('votes/', vote_views.VotesList.as_view()),
+    path('votes/<int:pk>/', vote_views.VoteDetail.as_view()),
 ]

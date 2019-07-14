@@ -75,6 +75,19 @@ Looking at two DRF views in this tutorial
 and the rendered template response.
 - The kind of default renderer if you are accessing Django Rest Framework API in an API context (e.g. using 
 `requests` or using `curl`) is the JSONRenderer.
+- To add renderers to a particular view, overwrite its `renderer_classes` variable as follows:
+```python
+renderer_classes = (
+    JSONRenderer,
+    TemplateHTMLRenderer,
+    BrowsableAPIRenderer,
+)
+```
+- Note: The order of renderer classes matter. For example, in the above scenario, since `TemplateHTMLRenderer` is 
+added before `BrowsableAPIRender`, it will by default render in HTML format. If the `BrowsableAPIRenderer` was before
+ `TemplateHTMLRenderer`, it would have by default given the DRF standard API view.
+ Additionally if the `JSONRenderer` was not added, the `format=json` query param would not work and the `format=api` 
+ would give a poorly formatted (too much spacing) data in response. Go check it out! 
 
 **What a renderer does?**
 - A renderer takes a representation of data - which is in Python in this case, so for example - the python view 

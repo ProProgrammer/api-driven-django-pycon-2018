@@ -1,6 +1,7 @@
 # Create your views here.
 # Django generic views - class based views - common operations combined in a class based view
 from django.shortcuts import redirect
+from rest_framework import permissions
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.renderers import TemplateHTMLRenderer, BrowsableAPIRenderer, JSONRenderer
 
@@ -90,6 +91,10 @@ class VotesList(ListCreateAPIView):
 
     template_name = 'vote_list.html'
 
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
     def create(self, request, *args, **kwargs):
         """
         Overriding the create function of ListCreateAPIView to:
@@ -119,3 +124,7 @@ class VoteDetail(RetrieveUpdateDestroyAPIView):
     )
 
     template_name = 'vote.html'
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )

@@ -1,5 +1,7 @@
 [Philip James - API-Driven Django - PyCon 2018](https://www.youtube.com/watch?v=w0xgJ5C9Be8)
 
+[Slides - API Driven Django - PyCon 2018](https://speakerdeck.com/phildini/api-driven-django)
+
 """
 Views that lists and creates Votes
 
@@ -135,3 +137,23 @@ thousands of millions of results in each query.
 ---- This is like here's a cursor which represents where you are in your page set and like here's the cursor to next 
 page set
 ---- `page and off set` is also very popular paginator
+
+
+**Authentication**
+
+- Several methods such as OAuth, Token, Session, RemoteAuth
+- Cannot cover all these in this tutorial due to time limitations.
+- DRF breaks its authentication system into twoparts:
+    1. DRF Authentication classes and
+        - Authentication classes are - how does a user say, yes I am a user
+    2. DRF Permissions classes 
+        - Great, now that I have a user, what can a user do on the API
+_- You can think of this as Authentication (auth) vs Authorization (permissions)_
+- In this tutorial - primary focus: Permissions class (confusing name): `isAuthenticatedOrReadOnly`
+- We will add, to both our View Classes `VoteDetail` and `VoteList`,
+  `permission_classes` variable that is going to contain
+  `permissions.isAuthenticatedOrReadOnly`
+  -   This means - if you are an anonymous user, you can read everything
+      but if you try to update it you are going to get some sort of 40x
+      error.
+  - If you are authenticated, it will works as expected.

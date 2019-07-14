@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Votes Application</title>
 </head>
 <body>
 
+    <h2>Votes</h2>
+
+    <ul>
+        {% for vote in results %}
+            <li>
+                <a href="/votes/{{ vote.id }}/">{{ vote.subject }} - {{ vote.ayes }}/{{ vote.nays }} on
+                     {{ vote.vote_taken }}</a>
+            </li>
+
+        {% endfor %}
+    </ul>
 </body>
 </html>

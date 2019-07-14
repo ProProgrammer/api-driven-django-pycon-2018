@@ -1,6 +1,7 @@
 # Create your views here.
 # Django generic views - class based views - common operations combined in a class based view
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.renderers import TemplateHTMLRenderer, BrowsableAPIRenderer, JSONRenderer
 
 from votes.models import Votes
 from votes.serializers import VoteSerializer
@@ -78,3 +79,12 @@ Looking at two DRF views in this tutorial
 class VotesList(ListCreateAPIView):
     queryset = Votes.objects.all()
     serializer_class = VoteSerializer
+
+    # Order of renderer classes matters
+    renderer_classes = (
+        JSONRenderer,
+        TemplateHTMLRenderer,
+        BrowsableAPIRenderer,
+    )
+
+    template_name = 'vote_list.html'
